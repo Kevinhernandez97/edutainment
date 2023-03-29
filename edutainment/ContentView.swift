@@ -73,7 +73,7 @@ struct ContentView: View {
 
 struct ContentGame: View {
     @State private var resultField = false
-    @State private var numberResponse: Int?
+    @State private var numberResponse = ""
     @State private var score = 0
     @State private var shouldReset = false
     @State private var stateButton = true
@@ -134,7 +134,7 @@ struct ContentGame: View {
                         .font(.largeTitle)
                         .fixedSize(horizontal: false, vertical: true)
                         .frame(height: 100)
-                    TextField("Insert response", value: $numberResponse, formatter: NumberFormatter())
+                    TextField("Insert response", text: $numberResponse)
                         .multilineTextAlignment(.center)
                         .disabled(isSubmitted)
                         .keyboardType(.numberPad)
@@ -144,7 +144,7 @@ struct ContentGame: View {
                     
                     if stateButton {
                         Button("Sent") {
-                            if Int(resultado) == numberResponse {
+                            if Int(resultado) == Int(numberResponse) {
                                 buttonSubmmit()
                                 resultField = true
                                 score += 1
@@ -157,7 +157,7 @@ struct ContentGame: View {
                         .background(.blue)
                         .foregroundColor(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                       .disabled(numberResponse == nil)
+                        .disabled(numberResponse == "")
                     } else {
                         Button("Refresh") {
                             restGame()
@@ -166,7 +166,7 @@ struct ContentGame: View {
                         .background(.indigo)
                         .foregroundColor(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                       .disabled(numberResponse == nil)
+                       .disabled(numberResponse == "")
                     }
                 }
                 
@@ -175,7 +175,7 @@ struct ContentGame: View {
                 Section {
                     if shouldReset {
                         Section {
-                            Text(Int(resultado) == numberResponse ? "Correcto \(tablesUp) = \(resultado)" : "Incorrecto el resultado deberia ser = \(resultado)")
+                            Text(Int(resultado) == Int(numberResponse) ? "Correcto \(tablesUp) = \(resultado)" : "Incorrecto el resultado deberia ser = \(resultado)")
                         }
                     }
 
@@ -212,7 +212,7 @@ struct ContentGame: View {
             numRandom2 = Int.random(in: 1...12)
             shouldReset = false
             stateButton = true
-            numberResponse = nil
+            numberResponse = ""
             isEditing = true
             isSubmitted = false
         }
@@ -225,7 +225,7 @@ struct ContentGame: View {
             numRandom2 = Int.random(in: 1...12)
             shouldReset = false
             stateButton = true
-            numberResponse = nil
+            numberResponse = ""
     }
 }
 /*
